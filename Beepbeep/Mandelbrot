@@ -1,0 +1,22 @@
+import numpy
+import matplotlib.pyplot as plt
+
+
+x, X = -2, 1
+y, Y = -1, 1
+
+delta = 0.001
+
+
+re, im = numpy.mgrid[x:X:delta, y:Y:delta]
+c = (re + 1j*im).reshape(im.shape[0], -1).T
+
+z = numpy.zeros_like(c)
+escape = numpy.zeros_like(numpy.absolute(c))
+for i in range(10):
+    z = z*z + c # mandelbrot eqn
+    idx = (numpy.absolute(z) > 4) & (escape == 0)
+    escape[idx]  = i
+    
+plt.figure(figsize=(20,10))
+plt.imshow(escape, extent=(x,X,y,Y))
